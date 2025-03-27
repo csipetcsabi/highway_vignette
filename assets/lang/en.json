@@ -1,3 +1,19 @@
 {
-  "e_vignette": "E-vignette"
+  "e_vignette": "E-vignette",
+  "national_vignette": "National vignette",
+  "annual_vignette" : "Annual country vignette",
+  "purchase": "Purchase",
+
+  "next": "Next",
+  "cancel": "Cancel",
+
+  "amount_payable" : "Amount Payable",
+
+  "confirm_payment" : "Confirm payment",
+  "plate_number" : "Plate number",
+  "type_of_vignette" : "Vignette type",
+  "system_usage_fee" : "System usage fee",
+
+  "successful_payment_message" : "You have successfully paid for the sticker!",
+  "okay" : "Okay"
 }

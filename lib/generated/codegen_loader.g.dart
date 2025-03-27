@@ -15,10 +15,34 @@ class CodegenLoader extends AssetLoader{
   }
 
   static const Map<String,dynamic> _en = {
-  "e-vignette": "E-vignette"
+  "e_vignette": "E-vignette",
+  "national_vignette": "National vignette",
+  "annual_vignette": "Annual country vignette",
+  "purchase": "Purchase",
+  "next": "Next",
+  "cancel": "Cancel",
+  "amount_payable": "Amount Payable",
+  "confirm_payment": "Confirm payment",
+  "plate_number": "Plate number",
+  "type_of_vignette": "Vignette type",
+  "system_usage_fee": "System usage fee",
+  "successful_payment_message": "You have successfully paid for the sticker!",
+  "okay": "Okay"
 };
 static const Map<String,dynamic> _hu = {
-  "e-vignette": "E-matrica"
+  "e_vignette": "E-matrica",
+  "national_vignette": "Országos matricák",
+  "annual_vignette": "Éves vármegyei matricák",
+  "purchase": "Vásárlás",
+  "next": "Tovább",
+  "cancel": "Mégse",
+  "amount_payable": "Fizetendő összeg",
+  "confirm_payment": "Vásárlás megerősítése",
+  "plate_number": "Rendszám",
+  "type_of_vignette": "Matrica típusa",
+  "system_usage_fee": "Rendszerhasználati díj",
+  "successful_payment_message": "A matrica sikeresen kifizetted!",
+  "okay": "Rendben"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": _en, "hu": _hu};
 }

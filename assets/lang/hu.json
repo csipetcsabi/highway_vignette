@@ -1,3 +1,24 @@
 {
-  "e_vignette": "E-matrica"
+  "e_vignette": "E-matrica",
+  "national_vignette": "Országos matricák",
+  "annual_vignette" : "Éves vármegyei matricák",
+  "purchase": "Vásárlás",
+
+  "next": "Tovább",
+  "cancel": "Mégse",
+
+  "amount_payable" : "Fizetendő összeg",
+
+  "confirm_payment" : "Vásárlás megerősítése",
+  "plate_number" : "Rendszám",
+  "type_of_vignette" : "Matrica típusa",
+  "system_usage_fee" : "Rendszerhasználati díj",
+
+  "successful_payment_message" : "A matrica sikeresen kifizetted!",
+  "okay" : "Rendben"
+
+
+
+
+
 }

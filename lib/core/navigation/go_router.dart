@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:highway_vignette/core/widgets/pageShell.dart';
+import 'package:highway_vignette/core/widgets/page_shell.dart';
 import 'package:highway_vignette/features/highway/presentation/ui/highway_page.dart';
 
 import '../../features/highway/presentation/bloc/highway_bloc.dart';
