@@ -18,7 +18,7 @@ class GetV1HighwayInfoResponse {
   
   factory GetV1HighwayInfoResponse.fromJson(Map<String, Object?> json) => _$GetV1HighwayInfoResponseFromJson(json);
   
-  final String requestId;
+  final int requestId;
   final String statusCode;
   final Payload payload;
 

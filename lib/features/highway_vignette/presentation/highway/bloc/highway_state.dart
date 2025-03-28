@@ -5,22 +5,28 @@ sealed class HighwayState   {
 }
 
 final class HighwayInitial extends HighwayState {
-
 }
 
-final class DataLoading extends HighwayState {
-  const DataLoading();
+final class VehicleInfoLoading extends HighwayState {
+  const VehicleInfoLoading();
 }
 
-final class DataLoaded extends HighwayState {
+final class HighwayInfoLoading extends HighwayState {
+  const HighwayInfoLoading();
+}
+
+final class VehicleInfoLoaded extends HighwayState {
   final GetV1HighwayVehicleResponse data;
+  const VehicleInfoLoaded(this.data);
+}
 
-  const DataLoaded(this.data);
+final class HighwayInfoLoaded extends HighwayState {
+  final List<HighwayVignettes> vignettes;
+  const HighwayInfoLoaded(this.vignettes);
 }
 
 final class DataLoadFailed extends HighwayState {
   final String errorMessage;
-
   const DataLoadFailed(this.errorMessage);
 }
 

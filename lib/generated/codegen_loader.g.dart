@@ -27,7 +27,10 @@ class CodegenLoader extends AssetLoader{
   "type_of_vignette": "Vignette type",
   "system_usage_fee": "System usage fee",
   "successful_payment_message": "You have successfully paid for the sticker!",
-  "okay": "Okay"
+  "okay": "Okay",
+  "weekly_vignette": "weekly (10 days)",
+  "monthly_vignette": "monthly",
+  "day_vignette": "daily (1 day)"
 };
 static const Map<String,dynamic> _hu = {
   "e_vignette": "E-matrica",
@@ -42,7 +45,10 @@ static const Map<String,dynamic> _hu = {
   "type_of_vignette": "Matrica típusa",
   "system_usage_fee": "Rendszerhasználati díj",
   "successful_payment_message": "A matrica sikeresen kifizetted!",
-  "okay": "Rendben"
+  "okay": "Rendben",
+  "weekly_vignette": "heti (10 napos)",
+  "monthly_vignette": "havi",
+  "day_vignette": "napi (1 napos)"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": _en, "hu": _hu};
 }

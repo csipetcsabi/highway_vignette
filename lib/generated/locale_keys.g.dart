@@ -16,5 +16,8 @@ abstract class  LocaleKeys {
   static const system_usage_fee = 'system_usage_fee';
   static const successful_payment_message = 'successful_payment_message';
   static const okay = 'okay';
+  static const weekly_vignette = 'weekly_vignette';
+  static const monthly_vignette = 'monthly_vignette';
+  static const day_vignette = 'day_vignette';
 
 }

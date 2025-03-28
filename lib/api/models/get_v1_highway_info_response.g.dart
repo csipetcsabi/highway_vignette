@@ -9,7 +9,7 @@ part of 'get_v1_highway_info_response.dart';
 GetV1HighwayInfoResponse _$GetV1HighwayInfoResponseFromJson(
   Map<String, dynamic> json,
 ) => GetV1HighwayInfoResponse(
-  requestId: json['requestId'] as String,
+  requestId: (json['requestId'] as num).toInt(),
   statusCode: json['statusCode'] as String,
   payload: Payload.fromJson(json['payload'] as Map<String, dynamic>),
 );

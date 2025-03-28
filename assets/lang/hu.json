@@ -15,7 +15,11 @@
   "system_usage_fee" : "Rendszerhasználati díj",
 
   "successful_payment_message" : "A matrica sikeresen kifizetted!",
-  "okay" : "Rendben"
+  "okay" : "Rendben",
+
+  "weekly_vignette": "heti (10 napos)",
+  "monthly_vignette": "havi",
+  "day_vignette": "napi (1 napos)"
 
 
 

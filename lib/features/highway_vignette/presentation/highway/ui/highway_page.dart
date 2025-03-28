@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:highway_vignette/core/theme/app_colors.dart';
 import 'package:highway_vignette/features/highway_vignette/presentation/highway/bloc/highway_bloc.dart';
+import 'package:highway_vignette/features/highway_vignette/presentation/highway/ui/national_vignettasCard.dart';
 import 'package:highway_vignette/generated/locale_keys.g.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HighwayPage extends StatelessWidget {
   @override
@@ -25,7 +27,6 @@ class HighwayPage extends StatelessWidget {
             ),
           );*/
         }
-
         if (state is DataLoadFailed) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -53,9 +54,13 @@ class HighwayPage extends StatelessWidget {
 
   Widget vehicleInfoCard() {
     return BlocBuilder<HighwayBloc, HighwayState>(
+      buildWhen:
+          (previous, current) =>
+              current is VehicleInfoLoading || current is VehicleInfoLoaded,
       builder: (context, state) {
-        if (state is DataLoaded) {
+        if (state is VehicleInfoLoaded) {
           return ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -71,12 +76,38 @@ class HighwayPage extends StatelessWidget {
             ),
             title: Text(
               state.data.plate,
-              //'ABC 123',
               style: TextStyle(fontWeight: FontWeight.w300),
             ),
-            subtitle: Text(state.data.name,
-              //'Michael Scott',
+            subtitle: Text(
+              state.data.name,
               style: TextStyle(fontWeight: FontWeight.w100),
+            ),
+          );
+        } else if (state is VehicleInfoLoading) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              tileColor: Colors.white,
+              hoverColor: Colors.white,
+              leading: Container(
+                width: 48.0,
+                height: 48.0,
+                color: Colors.white,
+              ),
+              title: Container(
+                width: double.infinity,
+                height: 12.0,
+                color: Colors.white,
+              ),
+              subtitle: Container(
+                width: 100.0,
+                height: 8.0,
+                color: Colors.white,
+              ),
             ),
           );
         }
@@ -86,21 +117,16 @@ class HighwayPage extends StatelessWidget {
   }
 
   Widget nacionalVignettasCard() {
-    return Card(
-      color: Colors.white,
-      shadowColor: Colors.transparent,
-      child: Column(
-        children: [
-          Text(
-            LocaleKeys.national_vignette.tr(),
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text(LocaleKeys.purchase.tr()),
-          ),
-        ],
-      ),
+    return BlocBuilder<HighwayBloc, HighwayState>(
+      buildWhen:
+          (previous, current) =>
+      current is VehicleInfoLoading || current is HighwayInfoLoaded,
+      builder: (context, state) {
+        if (state is HighwayInfoLoaded) {
+          return NationalVignettasCard((state as HighwayInfoLoaded).vignettes);
+        }
+        return Center(child: CircularProgressIndicator());
+      },
     );
   }
 
@@ -113,7 +139,9 @@ class HighwayPage extends StatelessWidget {
         context.read<HighwayBloc>().add(CountyVignettesOpened());
       },
       trailing: Icon(Icons.arrow_forward_ios),
-      title: Text(LocaleKeys.annual_vignette.tr()),
+      title: Text(LocaleKeys.annual_vignette.tr(),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
     );
   }
+
 }

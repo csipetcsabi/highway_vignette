@@ -14,6 +14,7 @@ Future<void> main() async {
   getItSetup();
   runApp(
     EasyLocalization(
+      startLocale: Locale('hu'),
       path: 'assets/lang',
       supportedLocales: const [Locale('en'), Locale('hu')],
       fallbackLocale: Locale('hu'),
