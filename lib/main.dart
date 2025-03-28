@@ -1,13 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:highway_vignette/core/injection.dart';
 import 'package:highway_vignette/core/navigation/go_router.dart';
 import 'package:highway_vignette/core/theme/app_theme.dart';
 
+import 'core/MyBlocObserver.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  getItSetup();
   await EasyLocalization.ensureInitialized();
+  Bloc.observer = MyBlocObserver();
+  getItSetup();
   runApp(
     EasyLocalization(
       path: 'assets/lang',

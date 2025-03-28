@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:highway_vignette/core/widgets/page_shell.dart';
-import 'package:highway_vignette/features/highway/presentation/ui/highway_page.dart';
+import 'package:highway_vignette/features/highway_vignette/presentation/highway/ui/highway_page.dart';
 
-import '../../features/highway/presentation/bloc/highway_bloc.dart';
+import '../../features/highway_vignette/domain/repository/highway_repository.dart';
+import '../../features/highway_vignette/presentation/highway/bloc/highway_bloc.dart';
+import '../injection.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'root',
@@ -28,7 +30,7 @@ final GoRouter appRouter = GoRouter(
           builder:
               (context, state) => BlocProvider<HighwayBloc>(
                 lazy: false,
-                create: (context) => HighwayBloc(),
+                create: (context) => HighwayBloc(getIt<HighwayRepository>()),
                 child: HighwayPage(),
               ),
         ),

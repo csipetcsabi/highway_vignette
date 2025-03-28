@@ -746,6 +746,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
+  swagger_parser:
+    dependency: "direct dev"
+    description:
+      name: swagger_parser
+      sha256: "71b0f3fff847faba60acd18686a7c71c378a38be9e838616b9d21708b70b581c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.22.0"
   term_glyph:
     dependency: transitive
     description:

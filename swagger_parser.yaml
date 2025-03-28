@@ -1,0 +1,14 @@
+swagger_parser:
+  # You must provide the file path and/or url to the OpenApi schema.
+
+  # Sets the OpenApi schema path directory for api definition.
+  schema_path: schemes/openapi.json
+
+  output_directory: lib/api
+
+  language: dart
+
+  json_serializer: json_serializable
+
+    # Optional. Set default content-type for all requests.
+  default_content_type: "application/json"
