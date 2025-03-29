@@ -4,15 +4,9 @@ sealed class HighwayEvent   {
   const HighwayEvent();
 }
 
-class VignetteSelected extends HighwayEvent {
-  final String vignetteType; //pl: éves, havi, heti
-
-  VignetteSelected({required this.vignetteType});
-}
-
 class PurchaseRequested extends HighwayEvent {
-
-  PurchaseRequested();
+  HighwayVignettes vignette;
+  PurchaseRequested(this.vignette);
 }
 
 class CountyVignettesOpened extends HighwayEvent {

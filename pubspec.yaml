@@ -70,7 +70,7 @@ flutter:
     - assets/icons/
 
   fonts:
-    - family: ytel
+    - family: Yettel
       fonts:
         - asset: assets/fonts/ytel_font_regular.otf
         - asset: assets/fonts/ytel_font_bold.otf

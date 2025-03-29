@@ -9,14 +9,17 @@ class HighwayRepositoryImpl implements HighwayRepository {
 
   HighwayRepositoryImpl({required this.client});
 
+  @override
   Future<GetV1HighwayVehicleResponse> getVehicleInfo() async {
     return await client.getVehicleInfo();
   }
 
+  @override
   Future<GetV1HighwayInfoResponse> getHighwayInfo() async {
     return await client.getHighwayInfo();
   }
 
+  @override
   Future<PostV1HighwayOrderResponse> postHighwayOrder(body) async {
     return await client.postHighwayOrder(body: body);
   }

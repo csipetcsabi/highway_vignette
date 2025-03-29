@@ -2,13 +2,19 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:highway_vignette/core/theme/app_colors.dart';
 import 'package:highway_vignette/features/highway_vignette/presentation/highway/bloc/highway_bloc.dart';
 import 'package:highway_vignette/features/highway_vignette/presentation/highway/ui/national_vignettasCard.dart';
 import 'package:highway_vignette/generated/locale_keys.g.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../../core/navigation/go_router.dart';
+import '../../../domain/models/args/confirmation_page_args.dart';
+
 class HighwayPage extends StatelessWidget {
+  const HighwayPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<HighwayBloc, HighwayState>(
@@ -21,13 +27,12 @@ class HighwayPage extends StatelessWidget {
               duration: const Duration(seconds: 3),
             ),
           );
-          /*          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const CountyVignettesPage(),
-            ),
-          );*/
-        }
-        if (state is DataLoadFailed) {
+        } else if (state is PurchaseConfirmationOpened) {
+          GoRouter.of(context).push(
+            AppRoutes.purchaseConfirmation,
+            extra: ConfirmationPageArgs([state.vignette], state.vehicleInfo),
+          );
+        } else if (state is DataLoadFailed) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.errorMessage),
@@ -120,10 +125,10 @@ class HighwayPage extends StatelessWidget {
     return BlocBuilder<HighwayBloc, HighwayState>(
       buildWhen:
           (previous, current) =>
-      current is VehicleInfoLoading || current is HighwayInfoLoaded,
+              current is VehicleInfoLoading || current is HighwayInfoLoaded,
       builder: (context, state) {
         if (state is HighwayInfoLoaded) {
-          return NationalVignettasCard((state as HighwayInfoLoaded).vignettes);
+          return NationalVignettasCard((state).vignettes);
         }
         return Center(child: CircularProgressIndicator());
       },
@@ -139,9 +144,10 @@ class HighwayPage extends StatelessWidget {
         context.read<HighwayBloc>().add(CountyVignettesOpened());
       },
       trailing: Icon(Icons.arrow_forward_ios),
-      title: Text(LocaleKeys.annual_vignette.tr(),
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+      title: Text(
+        LocaleKeys.annual_vignette.tr(),
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+      ),
     );
   }
-
 }

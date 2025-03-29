@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:highway_vignette/core/theme/app_colors.dart';
+import 'package:highway_vignette/features/highway_vignette/domain/models/vignette_type.dart';
 import 'package:highway_vignette/features/highway_vignette/presentation/highway/bloc/highway_bloc.dart';
 
 import '../../../../../api/models/highway_vignettes.dart';
@@ -10,7 +11,7 @@ import '../../../../../generated/locale_keys.g.dart';
 class NationalVignettasCard extends StatefulWidget {
   List<HighwayVignettes> vignettes;
 
-  NationalVignettasCard(this.vignettes, {Key? key}) : super(key: key);
+  NationalVignettasCard(this.vignettes, {super.key});
 
   @override
   State<NationalVignettasCard> createState() => _NationalVignettasCardState();
@@ -34,10 +35,15 @@ class _NationalVignettasCardState extends State<NationalVignettasCard> {
             SizedBox(height: 16),
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  context.read<HighwayBloc>().add(PurchaseRequested());
-                },
-                child: Text(LocaleKeys.purchase.tr(),),
+                onPressed:
+                    _selectedVignette != null
+                        ? () {
+                          context.read<HighwayBloc>().add(
+                            PurchaseRequested(_selectedVignette!),
+                          );
+                        }
+                        : null,
+                child: Text(LocaleKeys.purchase.tr()),
               ),
             ),
           ],
@@ -59,14 +65,17 @@ class _NationalVignettasCardState extends State<NationalVignettasCard> {
   Widget vignetteList() {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: widget.vignettes?.length,
+      itemCount: widget.vignettes.length,
       itemBuilder: (context, index) {
         final isSelected = widget.vignettes[index] == _selectedVignette;
 
         return Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: isSelected ? Theme.of(context).primaryColor : AppColors.lightGrayColor_2,
+              color:
+                  isSelected
+                      ? Theme.of(context).primaryColor
+                      : AppColors.lightGrayColor_2,
               width: 2,
             ),
             borderRadius: BorderRadius.circular(8),
@@ -79,7 +88,8 @@ class _NationalVignettasCardState extends State<NationalVignettasCard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(_tileTitle(widget.vignettes[index]),
+                  Text(
+                    _tileTitle(widget.vignettes[index]),
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
                   ),
                   Text(
@@ -107,22 +117,10 @@ class _NationalVignettasCardState extends State<NationalVignettasCard> {
   }
 
   String _tileTitle(HighwayVignettes vignett) {
-    String type = vignett.vignetteType.map((item) => _formatVignetteType(item)).join(",");
-  //fixme
+    String type = vignett.vignetteType
+        .map((item) => VignetteType.getByKey(item).getLocalizedText())
+        .join(",");
+    //fixme
     return "D1 - $type";
-
-  }
-
-  String _formatVignetteType(String vignetteType) {
-    switch (vignetteType) {
-      case "DAY":
-        return LocaleKeys.day_vignette.tr();
-      case "MONTH":
-        return LocaleKeys.monthly_vignette.tr();
-      case "WEEK":
-        return LocaleKeys.weekly_vignette.tr();
-      default:
-        return '';
-    }
   }
 }

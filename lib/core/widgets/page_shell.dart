@@ -2,15 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:highway_vignette/core/theme/app_theme.dart';
 import 'package:highway_vignette/core/widgets/rounded_appbar.dart';
 
 import '../../generated/locale_keys.g.dart';
-import '../theme/app_colors.dart';
 
 class PageShell extends StatelessWidget {
   final Widget child;
+  Color backgroundColor;
 
-  const PageShell({super.key, required this.child});
+   PageShell({super.key, required this.child, this.backgroundColor = Colors.white});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class PageShell extends StatelessWidget {
         }
       },
       child: Scaffold(
-        backgroundColor: AppColors.getBackgroundColor(context),
+        backgroundColor: backgroundColor,
         appBar: RoundedBottomAppBar(
           child: AppBar(
             automaticallyImplyLeading: false,
@@ -32,7 +33,7 @@ class PageShell extends StatelessWidget {
                 GoRouter.of(context).pop();
               },
             ),
-            title: Text(LocaleKeys.e_vignette.tr()),
+            title: Text(LocaleKeys.e_vignette.tr(), style: AppTheme.headings5Style,),
           ),
         ),
         body: SafeArea(child: child),

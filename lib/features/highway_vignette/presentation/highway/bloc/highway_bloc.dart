@@ -15,28 +15,28 @@ class HighwayBloc extends Bloc<HighwayEvent, HighwayState> {
   final HighwayRepository repository;
 
   Payload? payload;
+  GetV1HighwayVehicleResponse? vehicleInfo;
 
   HighwayBloc(this.repository) : super(HighwayInitial()) {
-    on<VignetteSelected>(_onVignetteSelected);
     on<PurchaseRequested>(_onPurchaseRequested);
     on<CountyVignettesOpened>(_onCountyVignettesOpened);
 
     _fetchInfos();
   }
 
-  FutureOr<void> _onVehicleDataLoadRequested() async {
+  FutureOr<void> _onVehicleInfoLoadRequested() async {
     emit(const VehicleInfoLoading());
     try {
-      final GetV1HighwayVehicleResponse vehicleInfo =
+      vehicleInfo =
           await repository.getVehicleInfo();
-      emit(VehicleInfoLoaded(vehicleInfo));
+      emit(VehicleInfoLoaded(vehicleInfo!));
     } catch (e) {
       //fixme
       emit(DataLoadFailed(e.toString()));
     }
   }
 
-  FutureOr<void> _onHighwayDataLoadRequested() async {
+  FutureOr<void> _onHighwayInfoLoadRequested() async {
     emit(const HighwayInfoLoading());
     try {
       final GetV1HighwayInfoResponse highwayInfo =
@@ -59,20 +59,14 @@ class HighwayBloc extends Bloc<HighwayEvent, HighwayState> {
     emit(HighwayInfoLoaded(filteredPayloads));
   }
 
-  FutureOr<void> _onVignetteSelected(
-    VignetteSelected event,
-    Emitter<HighwayState> emit,
-  ) {
-    emit(VignetteIsSelected(vignetteType: event.vignetteType));
-  }
 
   FutureOr<void> _onPurchaseRequested(
     PurchaseRequested event,
     Emitter<HighwayState> emit,
   ) async {
-    _fetchInfos();
-
-    //emit(const Purchasing());
+    if (vehicleInfo != null) {
+      emit(PurchaseConfirmationOpened(event.vignette, vehicleInfo!));
+    }
   }
 
   FutureOr<void> _onCountyVignettesOpened(
@@ -85,8 +79,8 @@ class HighwayBloc extends Bloc<HighwayEvent, HighwayState> {
   }
 
   void _fetchInfos() {
-    _onVehicleDataLoadRequested();
-    _onHighwayDataLoadRequested();
+    _onVehicleInfoLoadRequested();
+    _onHighwayInfoLoadRequested();
   }
 
   List<HighwayVignettes> filterPayloads(List<HighwayVignettes> payloads) {
