@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:highway_vignette/core/theme/app_colors.dart';
 import 'package:highway_vignette/features/highway_vignette/presentation/highway/bloc/highway_bloc.dart';
-import 'package:highway_vignette/features/highway_vignette/presentation/highway/ui/national_vignettasCard.dart';
+import 'package:highway_vignette/features/highway_vignette/presentation/highway/ui/national_vignettas_card.dart';
 import 'package:highway_vignette/generated/locale_keys.g.dart';
 import 'package:shimmer/shimmer.dart';
 

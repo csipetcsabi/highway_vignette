@@ -10,6 +10,7 @@ import '../../features/highway_vignette/domain/models/args/confirmation_page_arg
 import '../../features/highway_vignette/domain/repository/highway_repository.dart';
 import '../../features/highway_vignette/presentation/highway/bloc/highway_bloc.dart';
 import '../../features/highway_vignette/presentation/purchase_confirmation/bloc/confirmation_bloc.dart';
+import '../../features/highway_vignette/presentation/purchase_success/ui/success_page.dart';
 import '../injection.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(
@@ -26,9 +27,15 @@ class AppRoutes {
 final GoRouter appRouter = GoRouter(
   navigatorKey: rootNavigatorKey,
   routes: [
+    GoRoute(
+      path: AppRoutes.purchaseSuccess,
+      builder:
+          (context, state) => SuccessPage(),
+    ),
     ShellRoute(
       builder:
-          (context, state, widget) => PageShell(
+          (context, state, widget) =>
+          PageShell(
             backgroundColor: _getBackgroundColor(state),
             child: widget,
           ),
@@ -36,7 +43,8 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: AppRoutes.highway,
           builder:
-              (context, state) => BlocProvider<HighwayBloc>(
+              (context, state) =>
+              BlocProvider<HighwayBloc>(
                 lazy: false,
                 create: (context) => HighwayBloc(getIt<HighwayRepository>()),
                 child: HighwayPage(),
@@ -45,10 +53,11 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: AppRoutes.purchaseConfirmation,
           builder:
-              (context, state) => BlocProvider(
+              (context, state) =>
+              BlocProvider(
                 create:
                     (context) =>
-                        ConfirmationBloc(state.extra as ConfirmationPageArgs),
+                    ConfirmationBloc(state.extra as ConfirmationPageArgs),
                 child: PurchaseConfirmationPage(),
               ),
         ),

@@ -12,15 +12,23 @@ final class ConfirmationInitial extends ConfirmationState {
   List<Object> get props => [];
 }
 
-final class ConfirmationLoaded extends ConfirmationState {
-  String plateNumber;
-  String vignetteType;
-  List<VignettePriceRow> vignettes;
-  String tax;
-  String totalPrice;
-  String systemUsageFee;
+final class ConfirmationSuccess extends ConfirmationState {
 
-  ConfirmationLoaded({
+  const ConfirmationSuccess();
+
+  @override
+  List<Object> get props => [];
+}
+
+class ConfirmationLoaded extends ConfirmationState {
+  final String plateNumber;
+  final String vignetteType;
+  final List<VignettePriceRow> vignettes;
+  final String tax;
+  final String totalPrice;
+  final String systemUsageFee;
+
+  const ConfirmationLoaded({
     required this.plateNumber,
     required this.vignetteType,
     required this.vignettes,

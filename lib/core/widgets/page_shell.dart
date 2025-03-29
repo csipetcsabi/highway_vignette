@@ -9,9 +9,9 @@ import '../../generated/locale_keys.g.dart';
 
 class PageShell extends StatelessWidget {
   final Widget child;
-  Color backgroundColor;
+  final Color backgroundColor;
 
-   PageShell({super.key, required this.child, this.backgroundColor = Colors.white});
+   const PageShell({super.key, required this.child, this.backgroundColor = Colors.white});
 
   @override
   Widget build(BuildContext context) {

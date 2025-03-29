@@ -44,7 +44,7 @@ static const Map<String,dynamic> _hu = {
   "plate_number": "Rendszám",
   "type_of_vignette": "Matrica típusa",
   "system_usage_fee": "Rendszerhasználati díj",
-  "successful_payment_message": "A matrica sikeresen kifizetted!",
+  "successful_payment_message": "A matricákat sikeresen kifizetted!",
   "okay": "Rendben",
   "weekly_vignette": "heti (10 napos)",
   "monthly_vignette": "havi",

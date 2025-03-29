@@ -5,7 +5,7 @@ import 'package:highway_vignette/core/injection.dart';
 import 'package:highway_vignette/core/navigation/go_router.dart';
 import 'package:highway_vignette/core/theme/app_theme.dart';
 
-import 'core/MyBlocObserver.dart';
+import 'core/my_bloc_observer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -9,9 +9,9 @@ import '../../../../../api/models/highway_vignettes.dart';
 import '../../../../../generated/locale_keys.g.dart';
 
 class NationalVignettasCard extends StatefulWidget {
-  List<HighwayVignettes> vignettes;
+  final List<HighwayVignettes> vignettes;
 
-  NationalVignettasCard(this.vignettes, {super.key});
+  const NationalVignettasCard(this.vignettes, {super.key});
 
   @override
   State<NationalVignettasCard> createState() => _NationalVignettasCardState();

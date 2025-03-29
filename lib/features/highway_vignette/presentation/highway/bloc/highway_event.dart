@@ -4,6 +4,10 @@ sealed class HighwayEvent   {
   const HighwayEvent();
 }
 
+class HighwayFetchInfosEvent extends HighwayEvent {
+  const HighwayFetchInfosEvent();
+}
+
 class PurchaseRequested extends HighwayEvent {
   HighwayVignettes vignette;
   PurchaseRequested(this.vignette);

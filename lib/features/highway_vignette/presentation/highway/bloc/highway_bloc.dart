@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../api/models/get_v1_highway_info_response.dart';
 import '../../../../../api/models/get_v1_highway_vehicle_response.dart';
@@ -20,11 +21,12 @@ class HighwayBloc extends Bloc<HighwayEvent, HighwayState> {
   HighwayBloc(this.repository) : super(HighwayInitial()) {
     on<PurchaseRequested>(_onPurchaseRequested);
     on<CountyVignettesOpened>(_onCountyVignettesOpened);
+    on<HighwayFetchInfosEvent>(_onHighwayFetchInfo);
+add(HighwayFetchInfosEvent());
 
-    _fetchInfos();
   }
 
-  FutureOr<void> _onVehicleInfoLoadRequested() async {
+  FutureOr<void> _onVehicleInfoLoadRequested(Emitter<HighwayState> emit) async {
     emit(const VehicleInfoLoading());
     try {
       vehicleInfo =
@@ -36,19 +38,19 @@ class HighwayBloc extends Bloc<HighwayEvent, HighwayState> {
     }
   }
 
-  FutureOr<void> _onHighwayInfoLoadRequested() async {
+  FutureOr<void> _onHighwayInfoLoadRequested(Emitter<HighwayState> emit) async {
     emit(const HighwayInfoLoading());
     try {
       final GetV1HighwayInfoResponse highwayInfo =
           await repository.getHighwayInfo();
-      _processHighwayInfo(highwayInfo);
+      _processHighwayInfo(highwayInfo, emit);
     } catch (e) {
       //fixme
       emit(DataLoadFailed(e.toString()));
     }
   }
 
-  void _processHighwayInfo(GetV1HighwayInfoResponse highwayInfo) {
+  void _processHighwayInfo(GetV1HighwayInfoResponse highwayInfo, Emitter<HighwayState> emit) {
     //fixme filter vignette by types
     payload = highwayInfo.payload;
 
@@ -74,13 +76,13 @@ class HighwayBloc extends Bloc<HighwayEvent, HighwayState> {
     Emitter<HighwayState> emit,
   ) {
     //fixme
-    _fetchInfos();
+    _fetchInfos(emit);
     emit(const CountyVignettesAreOpened());
   }
 
-  void _fetchInfos() {
-    _onVehicleInfoLoadRequested();
-    _onHighwayInfoLoadRequested();
+  void _fetchInfos(Emitter<HighwayState> emit) {
+    _onVehicleInfoLoadRequested(emit);
+    _onHighwayInfoLoadRequested(emit);
   }
 
   List<HighwayVignettes> filterPayloads(List<HighwayVignettes> payloads) {
@@ -89,5 +91,9 @@ class HighwayBloc extends Bloc<HighwayEvent, HighwayState> {
       final List<String> vignetteTypes = List<String>.from(payload.vignetteType);
       return vignetteTypes.any((type) => filteredVignetteTypes.contains(type));
     }).toList();
+  }
+
+  FutureOr<void> _onHighwayFetchInfo(HighwayFetchInfosEvent event, Emitter<HighwayState> emit) {
+    _fetchInfos(emit);
   }
 }

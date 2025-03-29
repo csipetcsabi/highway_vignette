@@ -79,6 +79,14 @@ class AppTheme {
     letterSpacing: 0,
   );
 
+  static const headings1Style = TextStyle(
+    fontFamily: 'Yettel',
+    fontWeight: FontWeight.w600,
+    fontSize: 40,
+    height: 48 / 40, // 48px / 40px = 1.2
+    letterSpacing: -0.02, // -2% = -0.02
+  );
+
   static final TextStyle headings5Style = TextStyle(
   fontFamily: 'Yettel',
   fontWeight: FontWeight.w700,

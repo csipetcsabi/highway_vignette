@@ -1,5 +1,7 @@
-import 'package:bloc/bloc.dart';
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:highway_vignette/features/highway_vignette/domain/models/args/confirmation_page_args.dart';
 import 'package:highway_vignette/features/highway_vignette/domain/models/vignette_type.dart';
 
@@ -14,26 +16,10 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
   ConfirmationPageArgs args;
 
   ConfirmationBloc(this.args) : super(ConfirmationInitial()) {
-    on<ConfirmationEvent>((event, emit) {
-      // TODO: implement event handler
-    });
-    calculate();
-  }
-
-  void calculate() {
-    emit(
-      ConfirmationLoaded(
-        plateNumber: args.vehicleInfo.plate,
-        vignetteType:
-            VignetteType.getByKey(
-              args.vignettes.first.vignetteType.first,
-            ).getLocalizedText(),
-        vignettes: generateVignettePriceRows(args.vignettes),
-        tax: calculateTax(args.vignettes).toString(),
-        totalPrice: calculateTotalPrice(args.vignettes),
-        systemUsageFee: "${usageFee.round()} Ft",
-      ),
-    );
+    on<ConfirmationEvent>((event, emit) {});
+    on<ConfirmationRequested>(_onConfirmationRequested);
+    on<CalculateRequested>(_onCalculateRequested);
+    add(ConfirmationRequested());
   }
 
   List<VignettePriceRow> generateVignettePriceRows(
@@ -71,6 +57,32 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
   }
 
   void calculateState() {}
+
+  FutureOr<void> _onConfirmationRequested(
+    ConfirmationRequested event,
+    Emitter<ConfirmationState> emit,
+  ) {
+    emit(ConfirmationSuccess());
+  }
+
+  FutureOr<void> _onCalculateRequested(
+    CalculateRequested event,
+    Emitter<ConfirmationState> emit,
+  ) {
+    emit(
+      ConfirmationLoaded(
+        plateNumber: args.vehicleInfo.plate,
+        vignetteType:
+            VignetteType.getByKey(
+              args.vignettes.first.vignetteType.first,
+            ).getLocalizedText(),
+        vignettes: generateVignettePriceRows(args.vignettes),
+        tax: calculateTax(args.vignettes).toString(),
+        totalPrice: calculateTotalPrice(args.vignettes),
+        systemUsageFee: "${usageFee.round()} Ft",
+      ),
+    );
+  }
 }
 
 class VignettePriceRow {

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:highway_vignette/core/navigation/go_router.dart';
 import 'package:highway_vignette/features/highway_vignette/presentation/purchase_confirmation/bloc/confirmation_bloc.dart';
 
 import '../../../../core/theme/app_theme.dart';
@@ -12,7 +13,12 @@ class PurchaseConfirmationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ConfirmationBloc, ConfirmationState>(
+    return BlocConsumer<ConfirmationBloc, ConfirmationState>(
+      listener: (context, state) {
+        if (state is ConfirmationSuccess) {
+          GoRouter.of(context).push(AppRoutes.purchaseSuccess);
+        }
+      },
       builder: (context, state) {
         if (state is ConfirmationInitial) {
           return SizedBox();
@@ -61,7 +67,11 @@ class PurchaseConfirmationPage extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.read<ConfirmationBloc>().add(
+                        ConfirmationRequested(),
+                      );
+                    },
                     child: Text(LocaleKeys.next.tr()),
                   ),
                   SizedBox(height: 16),
