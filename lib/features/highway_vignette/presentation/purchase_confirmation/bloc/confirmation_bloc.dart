@@ -4,8 +4,12 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:highway_vignette/features/highway_vignette/domain/models/args/confirmation_page_args.dart';
 import 'package:highway_vignette/features/highway_vignette/domain/models/vignette_type.dart';
+import 'package:highway_vignette/features/highway_vignette/domain/repository/highway_repository.dart';
 
+import '../../../../../api/models/highway_orders.dart';
 import '../../../../../api/models/highway_vignettes.dart';
+import '../../../../../api/models/object0.dart';
+import '../../../../../api/models/post_v1_highway_order_response.dart';
 
 part 'confirmation_event.dart';
 part 'confirmation_state.dart';
@@ -14,12 +18,13 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
   double usageFee = 110.0;
 
   ConfirmationPageArgs args;
+  HighwayRepository repository;
 
-  ConfirmationBloc(this.args) : super(ConfirmationInitial()) {
+  ConfirmationBloc(this.args, this.repository) : super(ConfirmationInitial()) {
     on<ConfirmationEvent>((event, emit) {});
     on<ConfirmationRequested>(_onConfirmationRequested);
     on<CalculateRequested>(_onCalculateRequested);
-    add(ConfirmationRequested());
+    add(CalculateRequested());
   }
 
   List<VignettePriceRow> generateVignettePriceRows(
@@ -58,11 +63,35 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
 
   void calculateState() {}
 
-  FutureOr<void> _onConfirmationRequested(
+  Future<void> _onConfirmationRequested(
     ConfirmationRequested event,
     Emitter<ConfirmationState> emit,
-  ) {
-    emit(ConfirmationSuccess());
+  ) async {
+    emit(ConfirmationLoading());
+
+    try {
+      List<HighwayOrders> highwayOrders = [];
+      args.vignettes.forEach((item) {
+        HighwayOrders highwayOrder = HighwayOrders(
+          type: item.vignetteType.first,
+          category: item.vehicleCategory,
+          cost: item.cost,
+        );
+        highwayOrders.add(highwayOrder);
+      });
+
+      Object0 object0 = Object0(highwayOrders: highwayOrders);
+      PostV1HighwayOrderResponse response = await repository.postHighwayOrder(
+        object0,
+      );
+      if (response.statusCode != "OK") {
+        emit(ConfirmationFailed("Error: ${response.statusCode}"));
+        return;
+      }
+      emit(ConfirmationSuccess());
+    } catch (e) {
+      emit(ConfirmationFailed(e.toString()));
+    }
   }
 
   FutureOr<void> _onCalculateRequested(

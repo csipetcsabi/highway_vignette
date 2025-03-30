@@ -15,6 +15,7 @@ part 'client_client.g.dart';
 @RestApi( )
 abstract class ClientClient {
   factory ClientClient(Dio dio, {String? baseUrl}) = _ClientClient;
+  String? baseUrl;
 
   /// Retrieve highway vignette information
   @GET('/v1/highway/info')

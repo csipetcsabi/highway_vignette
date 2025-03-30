@@ -3,10 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:highway_vignette/core/theme/app_colors.dart';
 import 'package:highway_vignette/core/widgets/page_shell.dart';
+import 'package:highway_vignette/features/highway_vignette/presentation/county_vignette/bloc/county_vignette_bloc.dart';
+import 'package:highway_vignette/features/highway_vignette/presentation/county_vignette/ui/county_vignette_page.dart';
 import 'package:highway_vignette/features/highway_vignette/presentation/highway/ui/highway_page.dart';
-import 'package:highway_vignette/features/highway_vignette/presentation/purchase_confirmation/purchase_confirmation_page.dart';
+import 'package:highway_vignette/features/highway_vignette/presentation/purchase_confirmation/ui/purchase_confirmation_page.dart';
 
 import '../../features/highway_vignette/domain/models/args/confirmation_page_args.dart';
+import '../../features/highway_vignette/domain/models/args/county_page_args.dart';
 import '../../features/highway_vignette/domain/repository/highway_repository.dart';
 import '../../features/highway_vignette/presentation/highway/bloc/highway_bloc.dart';
 import '../../features/highway_vignette/presentation/purchase_confirmation/bloc/confirmation_bloc.dart';
@@ -57,10 +60,21 @@ final GoRouter appRouter = GoRouter(
               BlocProvider(
                 create:
                     (context) =>
-                    ConfirmationBloc(state.extra as ConfirmationPageArgs),
+                    ConfirmationBloc(state.extra as ConfirmationPageArgs, getIt<HighwayRepository>()),
                 child: PurchaseConfirmationPage(),
               ),
         ),
+        GoRoute(
+          path: AppRoutes.countyVignette,
+          builder:
+              (context, state) =>
+              BlocProvider(
+                create:
+                    (context) =>
+                    CountyVignetteBloc(state.extra as CountyPageArgs),
+                child: CountyVignettePage(),
+              ),
+        )
       ],
     ),
   ],

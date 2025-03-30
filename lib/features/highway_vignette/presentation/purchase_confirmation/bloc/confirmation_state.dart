@@ -5,7 +5,6 @@ sealed class ConfirmationState extends Equatable {
 }
 
 final class ConfirmationInitial extends ConfirmationState {
-
   const ConfirmationInitial();
 
   @override
@@ -13,8 +12,23 @@ final class ConfirmationInitial extends ConfirmationState {
 }
 
 final class ConfirmationSuccess extends ConfirmationState {
-
   const ConfirmationSuccess();
+
+  @override
+  List<Object> get props => [];
+}
+
+final class ConfirmationFailed extends ConfirmationState {
+  final String errorMessage;
+
+  const ConfirmationFailed(this.errorMessage);
+
+  @override
+  List<Object> get props => [errorMessage];
+}
+
+final class ConfirmationLoading extends ConfirmationState {
+  const ConfirmationLoading();
 
   @override
   List<Object> get props => [];

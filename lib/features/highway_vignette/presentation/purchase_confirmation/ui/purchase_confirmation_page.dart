@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:highway_vignette/core/navigation/go_router.dart';
 import 'package:highway_vignette/features/highway_vignette/presentation/purchase_confirmation/bloc/confirmation_bloc.dart';
 
-import '../../../../core/theme/app_theme.dart';
-import '../../../../generated/locale_keys.g.dart';
+import '../../../../../core/theme/app_theme.dart';
+import '../../../../../generated/locale_keys.g.dart';
 
 class PurchaseConfirmationPage extends StatelessWidget {
   const PurchaseConfirmationPage({super.key});
@@ -17,6 +17,13 @@ class PurchaseConfirmationPage extends StatelessWidget {
       listener: (context, state) {
         if (state is ConfirmationSuccess) {
           GoRouter.of(context).push(AppRoutes.purchaseSuccess);
+        } else if (state is ConfirmationFailed) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.errorMessage),
+              duration: const Duration(seconds: 3),
+            ),
+          );
         }
       },
       builder: (context, state) {
