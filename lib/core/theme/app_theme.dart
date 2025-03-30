@@ -35,6 +35,24 @@ class AppTheme {
           ),
         ),
       ),
+        checkboxTheme: CheckboxThemeData(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+
+
+          fillColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+            if (states.contains(WidgetState.selected)) {
+              return AppColors.checkBackgroundColor;
+            }
+            return Colors.white;
+          }),
+          checkColor:  WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+            return AppColors.checkTickColor;
+          }),
+          side: BorderSide(
+            color: AppColors.checkBackgroundColor,
+            width: 2,
+          ),
+        ),
       textTheme: const TextTheme(
         bodyMedium: TextStyle(fontFamily: 'Yettel'),
         bodyLarge: TextStyle(fontFamily: 'Yettel'),
@@ -83,8 +101,8 @@ class AppTheme {
     fontFamily: 'Yettel',
     fontWeight: FontWeight.w600,
     fontSize: 40,
-    height: 48 / 40, // 48px / 40px = 1.2
-    letterSpacing: -0.02, // -2% = -0.02
+    height: 48 / 40,
+    letterSpacing: -0.02,
   );
 
   static final TextStyle headings5Style = TextStyle(

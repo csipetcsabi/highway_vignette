@@ -8,3 +8,4 @@ final class CountyVignetteInitial extends CountyVignetteState {
   @override
   List<Object> get props => [];
 }
+

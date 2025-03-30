@@ -9,10 +9,9 @@ class HighwayFetchInfosEvent extends HighwayEvent {
 }
 
 class PurchaseRequested extends HighwayEvent {
-  HighwayVignettes vignette;
+  String vignette;
   PurchaseRequested(this.vignette);
 }
 
 class CountyVignettesOpened extends HighwayEvent {
-  // Nincs szükség extra adatra, ha csak a nézetet nyitjuk meg.
 }

@@ -10,11 +10,15 @@ import '../../../../../api/models/highway_orders.dart';
 import '../../../../../api/models/highway_vignettes.dart';
 import '../../../../../api/models/object0.dart';
 import '../../../../../api/models/post_v1_highway_order_response.dart';
+import '../../../../../utils/price_calculator.dart';
+import '../../../domain/models/vidgette_price_row.dart';
 
 part 'confirmation_event.dart';
 part 'confirmation_state.dart';
 
-class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
+class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState>
+    with PriceCalculator {
+  @override
   double usageFee = 110.0;
 
   ConfirmationPageArgs args;
@@ -23,43 +27,68 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
   ConfirmationBloc(this.args, this.repository) : super(ConfirmationInitial()) {
     on<ConfirmationEvent>((event, emit) {});
     on<ConfirmationRequested>(_onConfirmationRequested);
-    on<CalculateRequested>(_onCalculateRequested);
-    add(CalculateRequested());
+    on<ConfirmationLoadDatasEvent>(_onLoadDatas);
+    add(ConfirmationLoadDatasEvent());
   }
 
-  List<VignettePriceRow> generateVignettePriceRows(
-    List<HighwayVignettes> vignettes,
-  ) {
+  List<VignettePriceRow> generateVignettePriceRows(List<String> vignettes) {
     List<VignettePriceRow> vignettePriceRows = [];
-    for (HighwayVignettes vignette in vignettes) {
+    for (String vignette in vignettes) {
       vignettePriceRows.add(
         VignettePriceRow(
-          VignetteType.getByKey(
-            args.vignettes.first.vignetteType.first,
-          ).getLocalizedText(),
-          (vignette.sum.round()).toString(),
+          getVignetteName(vignette, args.payload),
+          getVignette(vignette, args.payload).sum.toString(),
         ),
       );
     }
     return vignettePriceRows;
   }
 
-  double calculateTax(List<HighwayVignettes> vignettes) {
+/*  String getVignetteName(String vignette) {
+    VignetteType vignetteType = VignetteType.getByKey(vignette);
+    if (vignetteType == VignetteType.year) {
+      return getCountyNameById(vignette, args.payload);
+    } else {
+      return vignetteType.getLocalizedText();
+    }
+  }*/
+
+  /*  String getCountyNameById(String id) {
+    return args.payload.counties
+        .firstWhere((item) => item.id.contains(id))
+        .name;
+  }*/
+
+  /*  String getVignettePrice(String vignette) {
+    return getVignette(vignette, args.payload).sum.toString();
+  }*/
+
+  /*  HighwayVignettes getVignette(String vignette) {
+    return args.payload.highwayVignettes.firstWhere(
+      (item) => item.vignetteType.contains(vignette),
+    );
+  }*/
+
+  /*
+  double calculateTax(List<String> vignettesList) {
     double totalTax = 0.0;
-    for (HighwayVignettes vignette in vignettes) {
-      totalTax += vignette.trxFee;
+    for (String vignette in vignettesList) {
+      HighwayVignettes highwayVignette = getVignette(vignette, args.payload);
+      totalTax += highwayVignette.trxFee;
     }
     return totalTax;
   }
+*/
 
-  String calculateTotalPrice(List<HighwayVignettes> vignettes) {
+  /*  String calculateTotalPrice(List<String> vignettes) {
     double totalPrice = 0.0;
-    for (HighwayVignettes vignette in vignettes) {
-      totalPrice += vignette.sum;
+    for (String vignette in vignettes) {
+      HighwayVignettes highwayVignette = getVignette(vignette);
+      totalPrice += highwayVignette.sum;
     }
     totalPrice += usageFee;
     return "${totalPrice.round()} Ft";
-  }
+  }*/
 
   void calculateState() {}
 
@@ -71,14 +100,16 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
 
     try {
       List<HighwayOrders> highwayOrders = [];
-      args.vignettes.forEach((item) {
+
+      for (var item in args.selectgedVignettesType) {
+        HighwayVignettes highwayVignettes = getVignette(item, args.payload);
         HighwayOrders highwayOrder = HighwayOrders(
-          type: item.vignetteType.first,
-          category: item.vehicleCategory,
-          cost: item.cost,
+          type: item,
+          category: highwayVignettes.vehicleCategory,
+          cost: highwayVignettes.cost,
         );
         highwayOrders.add(highwayOrder);
-      });
+      }
 
       Object0 object0 = Object0(highwayOrders: highwayOrders);
       PostV1HighwayOrderResponse response = await repository.postHighwayOrder(
@@ -94,8 +125,8 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
     }
   }
 
-  FutureOr<void> _onCalculateRequested(
-    CalculateRequested event,
+  FutureOr<void> _onLoadDatas(
+    ConfirmationLoadDatasEvent event,
     Emitter<ConfirmationState> emit,
   ) {
     emit(
@@ -103,20 +134,16 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
         plateNumber: args.vehicleInfo.plate,
         vignetteType:
             VignetteType.getByKey(
-              args.vignettes.first.vignetteType.first,
+              args.selectgedVignettesType.first,
             ).getLocalizedText(),
-        vignettes: generateVignettePriceRows(args.vignettes),
-        tax: calculateTax(args.vignettes).toString(),
-        totalPrice: calculateTotalPrice(args.vignettes),
+        vignettes: generateVignettePriceRows(args.selectgedVignettesType),
+        tax: calculateTax(args.selectgedVignettesType, args.payload).toString(),
+        totalPrice: calculateTotalPrice(
+          args.selectgedVignettesType,
+          args.payload,
+        ),
         systemUsageFee: "${usageFee.round()} Ft",
       ),
     );
   }
-}
-
-class VignettePriceRow {
-  String vignetteName;
-  String vignettePrice;
-
-  VignettePriceRow(this.vignetteName, this.vignettePrice);
 }

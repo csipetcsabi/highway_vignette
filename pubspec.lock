@@ -373,6 +373,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.2"
+  interactive_country_map:
+    dependency: "direct main"
+    description:
+      name: interactive_country_map
+      sha256: "9bb9e116cba64ef906249059a58ee7ddc8cc30d1f59b4a7ae26b08a8288ce93f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.6"
   intl:
     dependency: transitive
     description:

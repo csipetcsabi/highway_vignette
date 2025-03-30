@@ -5,7 +5,8 @@ import '../../../../generated/locale_keys.g.dart';
 enum VignetteType {
   day(key: "DAY", localizedKey: LocaleKeys.day_vignette),
   month(key: "MONTH", localizedKey: LocaleKeys.monthly_vignette),
-  week(key: "WEEK", localizedKey: LocaleKeys.weekly_vignette);
+  week(key: "WEEK", localizedKey: LocaleKeys.weekly_vignette),
+  year(key: "YEAR", localizedKey: LocaleKeys.annual_vignette);
 
   final String key;
   final String localizedKey;
@@ -19,7 +20,7 @@ enum VignetteType {
   static VignetteType getByKey(String key) {
     return VignetteType.values.firstWhere(
       (vignetteType) => vignetteType.key == key,
-      orElse: () => VignetteType.day, // Alapértelmezett érték, ha nincs találat
+      orElse: () => VignetteType.year,
     );
   }
 }

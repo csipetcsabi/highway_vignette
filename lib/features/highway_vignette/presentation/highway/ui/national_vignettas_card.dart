@@ -18,7 +18,7 @@ class NationalVignettasCard extends StatefulWidget {
 }
 
 class _NationalVignettasCardState extends State<NationalVignettasCard> {
-  HighwayVignettes? _selectedVignette;
+  String? _selectedVignette;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class _NationalVignettasCardState extends State<NationalVignettasCard> {
             borderRadius: BorderRadius.circular(8),
           ),
           margin: EdgeInsets.symmetric(vertical: 4),
-          child: RadioListTile<HighwayVignettes>(
+          child: RadioListTile<String>(
             activeColor: Theme.of(context).primaryColor,
             title: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -103,7 +103,7 @@ class _NationalVignettasCardState extends State<NationalVignettasCard> {
               ),
             ),
 
-            value: widget.vignettes[index],
+            value: widget.vignettes[index].vignetteType.first,
             groupValue: _selectedVignette,
             onChanged: (value) {
               setState(() {

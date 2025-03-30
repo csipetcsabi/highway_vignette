@@ -6,4 +6,4 @@ sealed class ConfirmationEvent {
 
 class ConfirmationRequested extends ConfirmationEvent {}
 
-class CalculateRequested extends ConfirmationEvent {}
+class ConfirmationLoadDatasEvent extends ConfirmationEvent {}

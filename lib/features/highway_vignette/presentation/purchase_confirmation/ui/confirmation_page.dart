@@ -8,8 +8,8 @@ import 'package:highway_vignette/features/highway_vignette/presentation/purchase
 import '../../../../../core/theme/app_theme.dart';
 import '../../../../../generated/locale_keys.g.dart';
 
-class PurchaseConfirmationPage extends StatelessWidget {
-  const PurchaseConfirmationPage({super.key});
+class ConfirmationPage extends StatelessWidget {
+  const ConfirmationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +38,9 @@ class PurchaseConfirmationPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Text(
-                      LocaleKeys.confirm_payment.tr(),
-                      style: AppTheme.headings4Style,
-                      //style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-                    ),
+                  Text(
+                    LocaleKeys.confirm_payment.tr(),
+                    style: AppTheme.headings4Style,
                   ),
                   Divider(),
                   SizedBox(height: 16),
@@ -58,7 +54,6 @@ class PurchaseConfirmationPage extends StatelessWidget {
                   Divider(),
                   SizedBox(height: 32),
                   vignetteList(state),
-
                   systemUsageFeeRow(state),
                   SizedBox(height: 32),
                   Divider(),
@@ -132,22 +127,23 @@ class PurchaseConfirmationPage extends StatelessWidget {
   }
 
   Widget vignetteList(ConfirmationLoaded state) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: state.vignettes.length,
-      itemBuilder: (context, index) {
-        final vignette = state.vignettes[index];
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(vignette.vignetteName, style: AppTheme.headings5Style),
-              Text(vignette.vignettePrice, style: AppTheme.bodyTextStyle6),
-            ],
-          ),
-        );
-      },
+    return Expanded(
+      child: ListView.builder(
+        itemCount: state.vignettes.length,
+        itemBuilder: (context, index) {
+          final vignette = state.vignettes[index];
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(vignette.vignetteName, style: AppTheme.headings5Style),
+                Text(vignette.vignettePrice, style: AppTheme.bodyTextStyle6),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

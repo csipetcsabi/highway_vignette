@@ -6,7 +6,7 @@ import 'package:highway_vignette/core/widgets/page_shell.dart';
 import 'package:highway_vignette/features/highway_vignette/presentation/county_vignette/bloc/county_vignette_bloc.dart';
 import 'package:highway_vignette/features/highway_vignette/presentation/county_vignette/ui/county_vignette_page.dart';
 import 'package:highway_vignette/features/highway_vignette/presentation/highway/ui/highway_page.dart';
-import 'package:highway_vignette/features/highway_vignette/presentation/purchase_confirmation/ui/purchase_confirmation_page.dart';
+import 'package:highway_vignette/features/highway_vignette/presentation/purchase_confirmation/ui/confirmation_page.dart';
 
 import '../../features/highway_vignette/domain/models/args/confirmation_page_args.dart';
 import '../../features/highway_vignette/domain/models/args/county_page_args.dart';
@@ -23,7 +23,7 @@ final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(
 class AppRoutes {
   static const highway = "/";
   static const countyVignette = "/county_vignette";
-  static const purchaseConfirmation = "/purchase_confirmation";
+  static const confirmation = "/confirmation";
   static const purchaseSuccess = "/purchase_success";
 }
 
@@ -54,14 +54,14 @@ final GoRouter appRouter = GoRouter(
               ),
         ),
         GoRoute(
-          path: AppRoutes.purchaseConfirmation,
+          path: AppRoutes.confirmation,
           builder:
               (context, state) =>
               BlocProvider(
                 create:
                     (context) =>
                     ConfirmationBloc(state.extra as ConfirmationPageArgs, getIt<HighwayRepository>()),
-                child: PurchaseConfirmationPage(),
+                child: ConfirmationPage(),
               ),
         ),
         GoRoute(
@@ -72,7 +72,7 @@ final GoRouter appRouter = GoRouter(
                 create:
                     (context) =>
                     CountyVignetteBloc(state.extra as CountyPageArgs),
-                child: CountyVignettePage(),
+                child: CountyVignettePage(state.extra as CountyPageArgs),
               ),
         )
       ],
@@ -84,7 +84,7 @@ Color _getBackgroundColor(GoRouterState state) {
   switch (state.matchedLocation) {
     case AppRoutes.highway:
       return AppColors.lightGrayColor;
-    case AppRoutes.purchaseConfirmation:
+    case AppRoutes.confirmation:
       return Colors.white;
     default:
       return Colors.white;

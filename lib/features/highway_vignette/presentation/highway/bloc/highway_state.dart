@@ -29,13 +29,15 @@ final class DataLoadFailed extends HighwayState {
 
 
 final class PurchaseConfirmationOpened extends HighwayState {
-  HighwayVignettes vignette;
+  String vignette;
   GetV1HighwayVehicleResponse vehicleInfo;
-  PurchaseConfirmationOpened(this.vignette, this.vehicleInfo);
+  Payload payload;
+  PurchaseConfirmationOpened(this.vignette, this.vehicleInfo, this.payload);
 }
 
 
 final class CountyVignettesAreOpened extends HighwayState {
   Payload payload;
-  CountyVignettesAreOpened(this.payload);
+  GetV1HighwayVehicleResponse vehicleInfo;
+  CountyVignettesAreOpened(this.payload, this.vehicleInfo);
 }

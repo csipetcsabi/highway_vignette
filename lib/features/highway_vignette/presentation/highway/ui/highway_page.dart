@@ -25,13 +25,13 @@ class HighwayPage extends StatelessWidget {
         if (state is CountyVignettesAreOpened) {
           GoRouter.of(context).push(
             AppRoutes.countyVignette,
-            extra: CountyPageArgs(state.payload),
+            extra: CountyPageArgs(state.payload, state.vehicleInfo),
           );
 
         } else if (state is PurchaseConfirmationOpened) {
           GoRouter.of(context).push(
-            AppRoutes.purchaseConfirmation,
-            extra: ConfirmationPageArgs([state.vignette], state.vehicleInfo),
+            AppRoutes.confirmation,
+            extra: ConfirmationPageArgs(state.payload, state.vehicleInfo, [state.vignette]),
           );
         } else if (state is DataLoadFailed) {
           showErrorDialog(context);

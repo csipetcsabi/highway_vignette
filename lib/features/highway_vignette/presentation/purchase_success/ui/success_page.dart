@@ -88,7 +88,7 @@ class _SuccessPageState extends State<SuccessPage> {
       shouldLoop: true,
       minimumSize: const Size(5, 5),
       maximumSize: const Size(10, 10),
-      numberOfParticles: 150,
+      numberOfParticles: 75,
 
       colors: const [
         Colors.green,

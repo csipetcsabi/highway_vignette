@@ -8,6 +8,10 @@ class AppColors {
   static Color lightGrayColor = Color(0xFFF2F4F5);
   static Color lightGrayColor_2 = Color(0xFFE5E9EC);
 
+  static Color checkTickColor = Color(0xFF80919F);
+  static Color checkBackgroundColor  = Color(0xFFE5E9EC);
+
+
 
   static Color lightBackgroundColor = Colors.white;
   static Color darkBackgroundColor = Colors.grey;
@@ -18,6 +22,7 @@ class AppColors {
 
   static Color lightTextColor = Colors.black;
   static Color darkTextColor = Colors.white;
+
 
   static Color getAppBarColor(BuildContext context) {
     return MediaQuery.of(context).platformBrightness == Brightness.dark

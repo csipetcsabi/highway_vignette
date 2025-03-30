@@ -50,8 +50,8 @@ class HighwayBloc extends Bloc<HighwayEvent, HighwayState> {
     PurchaseRequested event,
     Emitter<HighwayState> emit,
   ) async {
-    if (vehicleInfo != null) {
-      emit(PurchaseConfirmationOpened(event.vignette, vehicleInfo!));
+    if (vehicleInfo != null && payload != null) {
+      emit(PurchaseConfirmationOpened(event.vignette, vehicleInfo!, payload!));
     }
   }
 
@@ -59,8 +59,8 @@ class HighwayBloc extends Bloc<HighwayEvent, HighwayState> {
     CountyVignettesOpened event,
     Emitter<HighwayState> emit,
   ) async {
-    if (payload != null) {
-      emit(CountyVignettesAreOpened(payload!));
+    if (payload != null && vehicleInfo != null) {
+      emit(CountyVignettesAreOpened(payload!, vehicleInfo!));
     }
   }
 
