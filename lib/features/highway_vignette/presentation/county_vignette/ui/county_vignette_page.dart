@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:highway_vignette/features/highway_vignette/domain/models/args/county_page_args.dart';
+import 'package:highway_vignette/utils/countyUtil.dart';
 import 'package:highway_vignette/utils/price_calculator.dart';
 
 import '../../../../../api/models/counties.dart';
@@ -12,17 +13,18 @@ import '../../../../../generated/locale_keys.g.dart';
 import '../../../domain/models/args/confirmation_page_args.dart';
 
 class CountyVignettePage extends StatefulWidget {
-  CountyPageArgs args;
+  final CountyPageArgs args;
 
-  CountyVignettePage(this.args, {super.key});
+  const CountyVignettePage(this.args, {super.key});
 
   @override
   State<CountyVignettePage> createState() => _CountyVignettePageState();
 }
 
-class _CountyVignettePageState extends State<CountyVignettePage> with PriceCalculator{
+class _CountyVignettePageState extends State<CountyVignettePage>
+    with PriceCalculator {
   List<Counties> selectedCounties = [];
-
+  bool isConnected = true;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,14 @@ class _CountyVignettePageState extends State<CountyVignettePage> with PriceCalcu
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            Visibility(
+              visible: !isConnected,
+              //fixme localization
+              child: Text(
+                LocaleKeys.no_county_connection.tr(),
+                style: TextStyle(color: Colors.orange),
+              ),
+            ),
             const Divider(),
             Text(
               LocaleKeys.amount_payable.tr(),
@@ -67,17 +76,20 @@ class _CountyVignettePageState extends State<CountyVignettePage> with PriceCalcu
               style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),
             ),
             ElevatedButton(
-              onPressed: selectedCounties.isEmpty ? null :() {
-                List<String> selectedVignette = getSelectedVignettes();
-                GoRouter.of(context).push(
-                  AppRoutes.confirmation,
-                  extra: ConfirmationPageArgs(
-                    widget.args.payload,
-                    widget.args.vehicleInfo,
-                    selectedVignette,
-                  ),
-                );
-              },
+              onPressed:
+                  selectedCounties.isEmpty
+                      ? null
+                      : () {
+                        List<String> selectedVignette = getSelectedVignettes();
+                        GoRouter.of(context).push(
+                          AppRoutes.confirmation,
+                          extra: ConfirmationPageArgs(
+                            widget.args.payload,
+                            widget.args.vehicleInfo,
+                            selectedVignette,
+                          ),
+                        );
+                      },
               child: Text(LocaleKeys.next.tr()),
             ),
           ],
@@ -92,7 +104,10 @@ class _CountyVignettePageState extends State<CountyVignettePage> with PriceCalcu
 
   List<Widget> counties() {
     List<Widget> counties = [];
-    double price = widget.args.payload.highwayVignettes.firstWhere((item)=> item.vignetteType.contains("YEAR")).sum;
+    double price =
+        widget.args.payload.highwayVignettes
+            .firstWhere((item) => item.vignetteType.contains("YEAR"))
+            .sum;
 
     for (int i = 0; i < widget.args.payload.counties.length; i++) {
       Widget county = CheckboxListTile(
@@ -116,6 +131,7 @@ class _CountyVignettePageState extends State<CountyVignettePage> with PriceCalcu
             } else if (value == false) {
               selectedCounties.remove(widget.args.payload.counties[i]);
             }
+            isConnected = CountyUtil.areCountiesConnected(selectedCounties);
           });
         },
       );

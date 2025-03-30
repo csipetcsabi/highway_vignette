@@ -19,5 +19,6 @@
 
   "weekly_vignette": "weekly (10 days)",
   "monthly_vignette": "monthly",
-  "day_vignette": "daily (1 day)"
+  "day_vignette": "daily (1 day)",
+  "no_county_connection" : "No connection between counties"
 }

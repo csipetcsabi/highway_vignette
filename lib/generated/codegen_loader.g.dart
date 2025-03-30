@@ -30,7 +30,8 @@ class CodegenLoader extends AssetLoader{
   "okay": "Okay",
   "weekly_vignette": "weekly (10 days)",
   "monthly_vignette": "monthly",
-  "day_vignette": "daily (1 day)"
+  "day_vignette": "daily (1 day)",
+  "no_county_connection": "No connection between counties"
 };
 static const Map<String,dynamic> _hu = {
   "e_vignette": "E-matrica",
@@ -48,7 +49,8 @@ static const Map<String,dynamic> _hu = {
   "okay": "Rendben",
   "weekly_vignette": "heti (10 napos)",
   "monthly_vignette": "havi",
-  "day_vignette": "napi (1 napos)"
+  "day_vignette": "napi (1 napos)",
+  "no_county_connection": "Nincs kapcsolat a megyék között"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": _en, "hu": _hu};
 }

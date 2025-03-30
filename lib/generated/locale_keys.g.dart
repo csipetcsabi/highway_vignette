@@ -19,5 +19,6 @@ abstract class  LocaleKeys {
   static const weekly_vignette = 'weekly_vignette';
   static const monthly_vignette = 'monthly_vignette';
   static const day_vignette = 'day_vignette';
+  static const no_county_connection = 'no_county_connection';
 
 }
