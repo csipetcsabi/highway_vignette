@@ -11,6 +11,8 @@ class AppColors {
   static Color checkTickColor = Color(0xFF80919F);
   static Color checkBackgroundColor  = Color(0xFFE5E9EC);
 
+  static Color mapDefaultColor = Color(0xFFC4DFE9);
+
 
 
   static Color lightBackgroundColor = Colors.white;

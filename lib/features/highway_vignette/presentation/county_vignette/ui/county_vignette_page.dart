@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:highway_vignette/features/highway_vignette/domain/models/args/county_page_args.dart';
-import 'package:highway_vignette/utils/countyUtil.dart';
+import 'package:highway_vignette/utils/county_util.dart';
+import 'package:highway_vignette/utils/map_utils.dart';
 import 'package:highway_vignette/utils/price_calculator.dart';
 
-import '../../../../../api/models/counties.dart';
 import '../../../../../core/navigation/go_router.dart';
 import '../../../../../core/theme/app_theme.dart';
 import '../../../../../generated/locale_keys.g.dart';
 import '../../../domain/models/args/confirmation_page_args.dart';
+import '../../../domain/models/map_county.dart';
+import 'blind_map/blind_map.dart';
 
 class CountyVignettePage extends StatefulWidget {
   final CountyPageArgs args;
@@ -23,7 +25,7 @@ class CountyVignettePage extends StatefulWidget {
 
 class _CountyVignettePageState extends State<CountyVignettePage>
     with PriceCalculator {
-  List<Counties> selectedCounties = [];
+  List<String> selectedCounties = [];
   bool isConnected = true;
 
   @override
@@ -48,10 +50,7 @@ class _CountyVignettePageState extends State<CountyVignettePage>
                   children: [
                     SizedBox(height: 30),
                     Center(
-                      child: SvgPicture.asset(
-                        'assets/images/map.svg',
-                        height: 150,
-                      ),
+                      child: buildBlindMap(),
                     ),
                     ...counties(),
                   ],
@@ -99,7 +98,7 @@ class _CountyVignettePageState extends State<CountyVignettePage>
   }
 
   List<String> getSelectedVignettes() {
-    return selectedCounties.map((e) => e.id).toList();
+    return selectedCounties;
   }
 
   List<Widget> counties() {
@@ -123,13 +122,13 @@ class _CountyVignettePageState extends State<CountyVignettePage>
             Text("${price.round()} Ft", style: AppTheme.headings5Style),
           ],
         ),
-        value: selectedCounties.contains(widget.args.payload.counties[i]),
+        value: selectedCounties.contains(widget.args.payload.counties[i].id),
         onChanged: (bool? value) {
           setState(() {
             if (value == true) {
-              selectedCounties.add(widget.args.payload.counties[i]);
+              selectedCounties.add(widget.args.payload.counties[i].id);
             } else if (value == false) {
-              selectedCounties.remove(widget.args.payload.counties[i]);
+              selectedCounties.remove(widget.args.payload.counties[i].id);
             }
             isConnected = CountyUtil.areCountiesConnected(selectedCounties);
           });
@@ -138,5 +137,38 @@ class _CountyVignettePageState extends State<CountyVignettePage>
       counties.add(county);
     }
     return counties;
+  }
+
+  Widget buildBlindMap() {
+    return SizedBox(
+      height: 200,
+      width: 400,
+      child: FutureBuilder(future: MapUtils.loadSvgImage(svgImage: 'assets/images/map.svg'),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return BlindMap(
+                counties: snapshot.data!,
+                currentCountyIds: selectedCounties,
+                onCountySelected: (MapCounty county) {
+
+                  setState(() {
+                    List<String> selectedCountiesIds = selectedCounties.toList();
+                    if (selectedCountiesIds.contains(county.id)) {
+                      selectedCounties.remove(county.id);
+                    } else {
+                      selectedCounties.add(county.id);
+                    }
+                    isConnected = CountyUtil.areCountiesConnected(selectedCounties);
+                  });
+                },
+              );
+            } else  if (snapshot.hasError) {
+              return Text('Hiba: ${snapshot.error}');
+            }
+            return CircularProgressIndicator();
+          },
+
+      ),
+    );
   }
 }

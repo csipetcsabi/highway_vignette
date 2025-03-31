@@ -1,12 +1,10 @@
-import '../api/models/counties.dart';
 
 class CountyUtil{
 
-  static bool areCountiesConnected(List<Counties> selectedCounties) {
+  static bool areCountiesConnected(List<String> selectedCounties) {
     if (selectedCounties.length > 1) {
       Set<String> connections = {};
-      List<String> counties = selectedCounties.map((item) => item.id).toList();
-
+      List<String> counties = selectedCounties.toList();
       String first = counties.removeAt(0);
       connections.addAll(_connectionMap[first]!);
 

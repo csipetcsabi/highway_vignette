@@ -84,7 +84,7 @@ class _NationalVignettasCardState extends State<NationalVignettasCard> {
           child: RadioListTile<String>(
             activeColor: Theme.of(context).primaryColor,
             title: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
