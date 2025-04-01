@@ -32,6 +32,11 @@ Homework for create Highway Vignette.
     - Képernyők scrollozhatósága, hogy fektetve is használható legyen
 
 ### Code:
+    -A kezdőképernyőn letöltött adatokat paraméterben adjuk át a többi képernyőnek. Ehelyett használhatnánk egy service-t (provider-t), bloc-ot.
+        pl.: Létrehozunk egy  globális adatletöltő bloc-ot, ezt hívná megy a kezdőképernyőhöz tartozó bloc, ennek a state-ben tárolódnak a letöltött adatok. 
+            Ezután már a többi képernyő is eléri az adatokat közvetlenül.
+    - Egyedi adat modellek létrehozása az adott képernyőhöz, ezeket a modelleket szolgáltathatja az előző pontban említett service.
+    - UseCase-ek használata ha összetettebbé válik az alkalmazás
     - Vaktérképet általánossá tenni, nem dedikáltan csak a Magyarország térképét használni
     - Vaktérképet kiszerverezni, akár a /packages mappába mint önálló csomag
     - swagger_parser -t configurálni: api Client név, folders, postfix ...
@@ -42,9 +47,9 @@ Homework for create Highway Vignette.
     - bloc-okat injektálni
     - PageShell-t megszüntetni, háttérszín más az oldalaknál és ez AppBar-nál is kiütközik
     - Unit test, Integration test írása
-
-#### Hibák:
     - Success oldalról back-el való visszalépés hibás, nem a home-ra tér vissza
+
+    
 
 
 
