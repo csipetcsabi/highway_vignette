@@ -2,9 +2,8 @@ import 'package:highway_vignette/api/export.dart';
 
 import '../features/highway_vignette/domain/models/vignette_type.dart';
 
-mixin PriceCalculator {
+mixin PriceCalculatorMixin {
   double usageFee = 110.0;
-
 
   String getVignetteName(String vignette, Payload payload) {
     VignetteType vignetteType = VignetteType.getByKey(vignette);
@@ -39,13 +38,19 @@ mixin PriceCalculator {
     return totalTax;
   }
 
-  String calculateTotalPrice(List<String> vignettes, Payload payload) {
+  String calculateTotalPrice(
+    List<String> vignettes,
+    Payload payload, {
+    bool withTax = false,
+  }) {
     double totalPrice = 0.0;
     for (String vignette in vignettes) {
       HighwayVignettes highwayVignette = getVignette(vignette, payload);
       totalPrice += highwayVignette.sum;
     }
-    totalPrice += usageFee;
+    if (withTax) {
+      totalPrice += usageFee;
+    }
 
     return "${totalPrice.round()} Ft";
   }

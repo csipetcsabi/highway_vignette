@@ -17,7 +17,7 @@ part 'confirmation_event.dart';
 part 'confirmation_state.dart';
 
 class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState>
-    with PriceCalculator {
+    with PriceCalculatorMixin {
   @override
   double usageFee = 110.0;
 
@@ -37,58 +37,12 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState>
       vignettePriceRows.add(
         VignettePriceRow(
           getVignetteName(vignette, args.payload),
-          getVignette(vignette, args.payload).sum.toString(),
+          "${getVignette(vignette, args.payload).sum.round()} Ft",
         ),
       );
     }
     return vignettePriceRows;
   }
-
-/*  String getVignetteName(String vignette) {
-    VignetteType vignetteType = VignetteType.getByKey(vignette);
-    if (vignetteType == VignetteType.year) {
-      return getCountyNameById(vignette, args.payload);
-    } else {
-      return vignetteType.getLocalizedText();
-    }
-  }*/
-
-  /*  String getCountyNameById(String id) {
-    return args.payload.counties
-        .firstWhere((item) => item.id.contains(id))
-        .name;
-  }*/
-
-  /*  String getVignettePrice(String vignette) {
-    return getVignette(vignette, args.payload).sum.toString();
-  }*/
-
-  /*  HighwayVignettes getVignette(String vignette) {
-    return args.payload.highwayVignettes.firstWhere(
-      (item) => item.vignetteType.contains(vignette),
-    );
-  }*/
-
-  /*
-  double calculateTax(List<String> vignettesList) {
-    double totalTax = 0.0;
-    for (String vignette in vignettesList) {
-      HighwayVignettes highwayVignette = getVignette(vignette, args.payload);
-      totalTax += highwayVignette.trxFee;
-    }
-    return totalTax;
-  }
-*/
-
-  /*  String calculateTotalPrice(List<String> vignettes) {
-    double totalPrice = 0.0;
-    for (String vignette in vignettes) {
-      HighwayVignettes highwayVignette = getVignette(vignette);
-      totalPrice += highwayVignette.sum;
-    }
-    totalPrice += usageFee;
-    return "${totalPrice.round()} Ft";
-  }*/
 
   void calculateState() {}
 
@@ -141,6 +95,7 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState>
         totalPrice: calculateTotalPrice(
           args.selectgedVignettesType,
           args.payload,
+          withTax: true,
         ),
         systemUsageFee: "${usageFee.round()} Ft",
       ),

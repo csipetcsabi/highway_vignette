@@ -26,12 +26,12 @@ Homework for create Highway Vignette.
 
 ### Ui:
     - Icon és app név beállítása 
-
-    - Vaktérképet általánossá tenni, nem dedikáltan csak a Magyarország térképét használni
-    - Vaktérképet kiszerverezni, akár a /packages mappába mint önálló csomag
-
     - Dark theme hozzáadása
 
 ### Code:
-    - swagger_parser -t configolni: api Client névét, folders, postfix ...
+    - Vaktérképet általánossá tenni, nem dedikáltan csak a Magyarország térképét használni
+    - Vaktérképet kiszerverezni, akár a /packages mappába mint önálló csomag
+    - swagger_parser -t configurálni: api Client név, folders, postfix ...
     - Létrehozott TextStyle -okat hozzárendelni a TextTheme-hoz
+    - Hibák egységes kezelése
+    - formattereket használni, pl pénznem

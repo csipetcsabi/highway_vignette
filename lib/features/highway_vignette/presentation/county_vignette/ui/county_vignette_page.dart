@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:highway_vignette/features/highway_vignette/domain/models/args/county_page_args.dart';
 import 'package:highway_vignette/utils/county_util.dart';
 import 'package:highway_vignette/utils/map_utils.dart';
 import 'package:highway_vignette/utils/price_calculator.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../core/navigation/go_router.dart';
 import '../../../../../core/theme/app_theme.dart';
@@ -24,7 +24,7 @@ class CountyVignettePage extends StatefulWidget {
 }
 
 class _CountyVignettePageState extends State<CountyVignettePage>
-    with PriceCalculator {
+    with PriceCalculatorMixin {
   List<String> selectedCounties = [];
   bool isConnected = true;
 
@@ -49,9 +49,7 @@ class _CountyVignettePageState extends State<CountyVignettePage>
                 child: Column(
                   children: [
                     SizedBox(height: 30),
-                    Center(
-                      child: buildBlindMap(),
-                    ),
+                    Center(child: buildBlindMap()),
                     ...counties(),
                   ],
                 ),
@@ -143,37 +141,43 @@ class _CountyVignettePageState extends State<CountyVignettePage>
     return SizedBox(
       height: 200,
       width: 400,
-      child: FutureBuilder(future: MapUtils.loadSvgImage(svgImage: 'assets/images/map.svg'),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<String> withBPselectedCounties = selectedCounties.toList();
-              if (withBPselectedCounties.contains("YEAR_23")) {
-                withBPselectedCounties.add("BP");
-              }
-              return BlindMap(
-                counties: snapshot.data!,
-                currentCountyIds: withBPselectedCounties,
-                onCountySelected: (MapCounty county) {
-                  if (county.id == "BP") {
-                    county.id = "YEAR_23";
-                  }
-                  setState(() {
-                    List<String> selectedCountiesIds = selectedCounties.toList();
-                    if (selectedCountiesIds.contains(county.id)) {
-                      selectedCounties.remove(county.id);
-                    } else {
-                      selectedCounties.add(county.id);
-                    }
-                    isConnected = CountyUtil.areCountiesConnected(selectedCounties);
-                  });
-                },
-              );
-            } else  if (snapshot.hasError) {
-              return Text('Hiba: ${snapshot.error}');
+      child: FutureBuilder(
+        future: MapUtils.loadSvgImage(svgImage: 'assets/images/map.svg'),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<String> withBPselectedCounties = selectedCounties.toList();
+            if (withBPselectedCounties.contains("YEAR_23")) {
+              withBPselectedCounties.add("BP");
             }
-            return Center(child: CircularProgressIndicator());
-          },
-
+            return BlindMap(
+              counties: snapshot.data!,
+              currentCountyIds: withBPselectedCounties,
+              onCountySelected: (MapCounty county) {
+                if (county.id == "BP") {
+                  county.id = "YEAR_23";
+                }
+                setState(() {
+                  List<String> selectedCountiesIds = selectedCounties.toList();
+                  if (selectedCountiesIds.contains(county.id)) {
+                    selectedCounties.remove(county.id);
+                  } else {
+                    selectedCounties.add(county.id);
+                  }
+                  isConnected = CountyUtil.areCountiesConnected(
+                    selectedCounties,
+                  );
+                });
+              },
+            );
+          } else if (snapshot.hasError) {
+            return Text('Hiba: ${snapshot.error}');
+          }
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: SizedBox(height: 200, child: Card()),
+          );
+        },
       ),
     );
   }
