@@ -57,7 +57,6 @@ class _CountyVignettePageState extends State<CountyVignettePage>
             ),
             Visibility(
               visible: !isConnected,
-              //fixme localization
               child: Text(
                 LocaleKeys.no_county_connection.tr(),
                 style: TextStyle(color: Colors.orange),

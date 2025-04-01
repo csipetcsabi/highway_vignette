@@ -10,7 +10,6 @@ final getIt = GetIt.instance;
 
 void getItSetup() {
   final dio = Dio();
-  //fixme
   getIt.registerLazySingleton<ClientClient>(
     () => ClientClient(dio, baseUrl: AppConstants.defaultBaseUrl),
   );

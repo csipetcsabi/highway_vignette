@@ -38,7 +38,6 @@ class HighwayBloc extends Bloc<HighwayEvent, HighwayState> {
   List<HighwayVignettes> _processHighwayInfo(
     GetV1HighwayInfoResponse highwayInfo,
   ) {
-    //fixme filter vignette by types
     payload = highwayInfo.payload;
 
     List<HighwayVignettes> payloads = highwayInfo.payload.highwayVignettes;
@@ -78,7 +77,6 @@ class HighwayBloc extends Bloc<HighwayEvent, HighwayState> {
           results[1] as List<HighwayVignettes>;
       emit(HighwayInfoLoaded(highwayInfo, vehicleInfo));
     } catch (e) {
-      //fixme
       emit(DataLoadFailed(e.toString()));
     }
   }

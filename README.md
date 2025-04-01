@@ -2,11 +2,11 @@
 
 Homework for create Highway Vignette.
 
-## APK telepítése
+## APK telepítése  [Download APK](release/app-release.apk)
 
     - A release mappába  megtalálható az app-release.apk fájl, amit fel tudsz tölteni a telefonodra.
-    - Indítás után az alkalmazás próbál csatlakozni a localhost:8080-ra, ami a telefonodon nem fog működni.
-    - Sikertelen csatlakozás-t követően, egy dialog-ban javíthatod a server IP-t.
+    - Indítás után az alkalmazás próbál csatlakozni a localhost:8080-ra, ahol
+     sikertelen csatlakozás-t követően, egy dialog-ban javíthatod a server IP-t.
 
 ## Build + run
     - flutter pub get  (dependenciák letöltése)
@@ -27,6 +27,7 @@ Homework for create Highway Vignette.
 ### Ui:
     - Icon és app név beállítása 
     - Dark theme hozzáadása
+    - Képernyők scrollozhatósága, hogy fektetve is lehessen használni
 
 ### Code:
     - Vaktérképet általánossá tenni, nem dedikáltan csak a Magyarország térképét használni
@@ -34,4 +35,9 @@ Homework for create Highway Vignette.
     - swagger_parser -t configurálni: api Client név, folders, postfix ...
     - Létrehozott TextStyle -okat hozzárendelni a TextTheme-hoz
     - Hibák egységes kezelése
-    - formattereket használni, pl pénznem
+    - Formattereket használni, pl pénznem
+    - county_vignette_page átírása bloc-ra
+    - bloc-okat injektálni
+    - PageShell-t megszüntetni, háttérszín más az oldalaknál és ez AppBar-nál is kiütközik
+    - Unit test, Integration test írása
+

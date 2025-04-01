@@ -10,8 +10,9 @@ import '../../../../../generated/locale_keys.g.dart';
 
 class NationalVignettasCard extends StatefulWidget {
   final List<HighwayVignettes> vignettes;
+  final String vignetteType;
 
-  const NationalVignettasCard(this.vignettes, {super.key});
+  const NationalVignettasCard(this.vignettes, this.vignetteType, {super.key});
 
   @override
   State<NationalVignettasCard> createState() => _NationalVignettasCardState();
@@ -67,13 +68,12 @@ class _NationalVignettasCardState extends State<NationalVignettasCard> {
       shrinkWrap: true,
       itemCount: widget.vignettes.length,
       itemBuilder: (context, index) {
-        final isSelected = widget.vignettes[index] == _selectedVignette;
-
+        final isSelected =widget.vignettes[index].vignetteType.first == _selectedVignette;
         return Container(
           decoration: BoxDecoration(
             border: Border.all(
               color:
-                  isSelected
+              isSelected
                       ? Theme.of(context).primaryColor
                       : AppColors.lightGrayColor_2,
               width: 2,
@@ -120,7 +120,6 @@ class _NationalVignettasCardState extends State<NationalVignettasCard> {
     String type = vignett.vignetteType
         .map((item) => VignetteType.getByKey(item).getLocalizedText())
         .join(",");
-    //fixme
-    return "D1 - $type";
+    return "${widget.vignetteType} - $type";
   }
 }

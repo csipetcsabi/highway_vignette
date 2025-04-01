@@ -18,8 +18,6 @@ part 'confirmation_state.dart';
 
 class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState>
     with PriceCalculatorMixin {
-  @override
-  double usageFee = 110.0;
 
   ConfirmationPageArgs args;
   HighwayRepository repository;

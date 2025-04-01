@@ -130,7 +130,7 @@ class HighwayPage extends StatelessWidget {
               current is HighwayInfoLoading || current is HighwayInfoLoaded,
       builder: (context, state) {
         if (state is HighwayInfoLoaded) {
-          return NationalVignettasCard((state).vignettes);
+          return NationalVignettasCard((state).vignettes, state.data.vignetteType);
         }
         return Shimmer.fromColors(
           baseColor: Colors.grey[300]!,

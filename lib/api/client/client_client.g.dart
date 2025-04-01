@@ -13,6 +13,7 @@ class _ClientClient implements ClientClient {
 
   final Dio _dio;
 
+  @override
   String? baseUrl;
 
   final ParseErrorLogger? errorLogger;
