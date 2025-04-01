@@ -99,9 +99,9 @@ class ConfirmationPage extends StatelessWidget {
       children: [
         Text(
           LocaleKeys.system_usage_fee.tr(),
-          style: AppTheme.bodyTextStyle6.copyWith(fontWeight: FontWeight.w300),
+          style: AppTheme.bodyText6Style.copyWith(fontWeight: FontWeight.w300),
         ),
-        Text(state.systemUsageFee, style: AppTheme.bodyTextStyle6),
+        Text(state.systemUsageFee, style: AppTheme.bodyText6Style),
       ],
     );
   }
@@ -110,8 +110,8 @@ class ConfirmationPage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(first, style: AppTheme.bodyTextStyle6),
-        Text(second, style: AppTheme.bodyTextStyle6),
+        Text(first, style: AppTheme.bodyText6Style),
+        Text(second, style: AppTheme.bodyText6Style),
       ],
     );
   }
@@ -121,7 +121,7 @@ class ConfirmationPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(first, style: AppTheme.headings5Style),
-        Text(second, style: AppTheme.bodyTextStyle6),
+        Text(second, style: AppTheme.bodyText6Style),
       ],
     );
   }
@@ -138,7 +138,7 @@ class ConfirmationPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(vignette.vignetteName, style: AppTheme.headings5Style),
-                Text(vignette.vignettePrice, style: AppTheme.bodyTextStyle6),
+                Text(vignette.vignettePrice, style: AppTheme.bodyText6Style),
               ],
             ),
           );

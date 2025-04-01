@@ -132,7 +132,13 @@ class HighwayPage extends StatelessWidget {
         if (state is HighwayInfoLoaded) {
           return NationalVignettasCard((state).vignettes);
         }
-        return Center(child: CircularProgressIndicator());
+        return Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          child: SizedBox(
+              height: 300,
+              child: Card()),
+        );
       },
     );
   }

@@ -37,8 +37,6 @@ class AppTheme {
       ),
         checkboxTheme: CheckboxThemeData(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-
-
           fillColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
             if (states.contains(WidgetState.selected)) {
               return AppColors.checkBackgroundColor;
@@ -89,7 +87,7 @@ class AppTheme {
     letterSpacing: 0,
   );
 
-  static final bodyTextStyle6 = TextStyle(
+  static final bodyText6Style = TextStyle(
     fontFamily: 'Yettel',
     fontWeight: FontWeight.w100,
     fontSize: 14,

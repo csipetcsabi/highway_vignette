@@ -117,7 +117,7 @@ class _CountyVignettePageState extends State<CountyVignettePage>
           children: [
             Text(
               widget.args.payload.counties[i].name,
-              style: AppTheme.bodyTextStyle6,
+              style: AppTheme.bodyText6Style,
             ),
             Text("${price.round()} Ft", style: AppTheme.headings5Style),
           ],
@@ -146,11 +146,17 @@ class _CountyVignettePageState extends State<CountyVignettePage>
       child: FutureBuilder(future: MapUtils.loadSvgImage(svgImage: 'assets/images/map.svg'),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              List<String> withBPselectedCounties = selectedCounties.toList();
+              if (withBPselectedCounties.contains("YEAR_23")) {
+                withBPselectedCounties.add("BP");
+              }
               return BlindMap(
                 counties: snapshot.data!,
-                currentCountyIds: selectedCounties,
+                currentCountyIds: withBPselectedCounties,
                 onCountySelected: (MapCounty county) {
-
+                  if (county.id == "BP") {
+                    county.id = "YEAR_23";
+                  }
                   setState(() {
                     List<String> selectedCountiesIds = selectedCounties.toList();
                     if (selectedCountiesIds.contains(county.id)) {
@@ -165,7 +171,7 @@ class _CountyVignettePageState extends State<CountyVignettePage>
             } else  if (snapshot.hasError) {
               return Text('Hiba: ${snapshot.error}');
             }
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           },
 
       ),

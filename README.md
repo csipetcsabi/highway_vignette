@@ -1,16 +1,37 @@
-# highway_vignette
+# Telepítési dokumentáció
 
 Homework for create Highway Vignette.
 
-## Getting Started
+## APK telepítése
 
-This project is a starting point for a Flutter application.
+    - A release mappába  megtalálható az app-release.apk fájl, amit fel tudsz tölteni a telefonodra.
+    - Indítás után az alkalmazás próbál csatlakozni a localhost:8080-ra, ami a telefonodon nem fog működni.
+    - Sikertelen csatlakozás-t követően, egy dialog-ban javíthatod a server IP-t.
 
-A few resources to get you started if this is your first Flutter project:
+## Build + run
+    - flutter pub get  (dependenciák letöltése)
+    - flutter run (futtatás)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+    (Az alkalmazás android és windows alkalmazásként futtatható)  
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Alkalmazás módosítása
+
+    - flutter pub get  (dependenciák letöltése)
+    - flutter pub run build_runner build --delete-conflicting-outputs (kód generálás)
+    - flutter pub run easy_localization:generate --source-dir ./assets/lang (nyelvi elemek generálása)
+    - flutter pub run easy_localization:generate -S assets/lang -f keys -o locale_keys.g.dart (nyelvi kulcsok generálás)
+
+
+# Javaslatok
+
+### Ui:
+    - Icon és app név beállítása 
+
+    - Vaktérképet általánossá tenni, nem dedikáltan csak a Magyarország térképét használni
+    - Vaktérképet kiszerverezni, akár a /packages mappába mint önálló csomag
+
+    - Dark theme hozzáadása
+
+### Code:
+    - swagger_parser -t configolni: api Client névét, folders, postfix ...
+    - Létrehozott TextStyle -okat hozzárendelni a TextTheme-hoz
